@@ -1130,18 +1130,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- نوافذ المعاينة والطباعة -->
-        <div id="printPreviewModal" class="print-preview-modal">
-            <div class="print-preview-content">
-                <button class="close-preview" id="closePreview">إغلاق</button>
-                <div id="printPreviewBody"></div>
-                <div class="row" style="margin-top:15px;justify-content:center">
-                    <button class="btn b-blue" id="doPrint">طباعة</button>
-                    <button class="btn b-red" id="cancelPrint">إلغاء</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -1575,19 +1563,14 @@
             </div>`;
         }
 
-        function showPrintPreview(content, isFoodCard = false) {
-            $('#printPreviewBody').innerHTML = content;
-            $('#printPreviewModal').style.display = 'flex';
+        function printInvoiceLast() {
+            const e = state.data.entries[state.data.entries.length - 1];
+            if (!e) return alert('لا بيانات');
             
-            // حفظ نوع المحتوى للطباعة لاحقاً
-            $('#printPreviewModal').dataset.printType = isFoodCard ? 'foodcard' : 'invoice';
-        }
-
-        function doPrint() {
-            const printType = $('#printPreviewModal').dataset.printType;
+            const content = buildInvoice(e);
             const printContent = document.createElement('div');
             printContent.className = 'print-content';
-            printContent.innerHTML = $('#printPreviewBody').innerHTML;
+            printContent.innerHTML = content;
             
             document.body.appendChild(printContent);
             
@@ -1600,19 +1583,6 @@
             window.print(printSettings);
             
             document.body.removeChild(printContent);
-            $('#printPreviewModal').style.display = 'none';
-            
-            if (printType === 'foodcard') {
-                clearInputFields();
-            }
-        }
-
-        function printInvoiceLast() {
-            const e = state.data.entries[state.data.entries.length - 1];
-            if (!e) return alert('لا بيانات');
-            
-            const content = buildInvoice(e);
-            showPrintPreview(content, false);
         }
         
         function printInvoiceFromTable(index) {
@@ -1620,7 +1590,15 @@
             if (!e) return;
             
             const content = buildInvoice(e);
-            showPrintPreview(content, false);
+            const printContent = document.createElement('div');
+            printContent.className = 'print-content';
+            printContent.innerHTML = content;
+            
+            document.body.appendChild(printContent);
+            
+            window.print();
+            
+            document.body.removeChild(printContent);
         }
 
         function printFoodCardLast() {
@@ -1629,7 +1607,18 @@
             if (!e) return alert('لا بيانات');
             
             const content = buildFoodCard(e);
-            showPrintPreview(content, true);
+            const printContent = document.createElement('div');
+            printContent.className = 'print-content';
+            printContent.innerHTML = content;
+            
+            document.body.appendChild(printContent);
+            
+            window.print();
+            
+            document.body.removeChild(printContent);
+            
+            // مسح الحقول بعد الطباعة
+            clearInputFields();
         }
 
         function filter(site, from, to) {
@@ -1991,7 +1980,7 @@
                 site: $('#site').value || 'مسلخ تجريبي',
                 animalType: $('#animalType').value || 'خروف',
                 cutType: $('#cutType').value || 'عزيمة',
-                sticker: $('#sticker').value || '01',
+                sticker: $('#sticker').value || '5678',
                 date: new Date().toISOString()
             };
             $('#cardPreviewWrap').innerHTML = buildFoodCard(e);
@@ -2183,25 +2172,6 @@
             
             if (e.target.id === 'btnResetData') {
                 resetData();
-            }
-            
-            if (e.target.id === 'closePreview' || e.target.id === 'cancelPrint') {
-                $('#printPreviewModal').style.display = 'none';
-            }
-            
-            if (e.target.id === 'doPrint') {
-                doPrint();
-            }
-            
-            const cell = e.target.closest('#tblInvoices tbody td');
-            if (cell && !e.target.closest('button') && state.screen === 'invoices') {
-                const row = cell.parentElement;
-                const rowIndex = Array.from(row.parentElement.children).indexOf(row);
-                const cellIndex = Array.from(row.children).indexOf(cell);
-                
-                if (cellIndex > 0 && cellIndex < 8) {
-                    startEdit(rowIndex, cellIndex, cell);
-                }
             }
         });
         

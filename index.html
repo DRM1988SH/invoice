@@ -1390,24 +1390,31 @@
         }
 
         function clearInputFields() {
+            // مسح جميع الحقول في نموذج الإدخال
             $('#phone').value = '';
             $('#clientName').value = '';
             $('#invoiceNo').value = '';
             $('#animalNo').value = '';
-            $('#sticker').value = '';
-            $('#qty').value = '';
-            $('#animalType').value = '';
-            $('#cutType').value = '';
+            $('#sticker').selectedIndex = 0;
+            $('#qty').selectedIndex = 0;
+            $('#animalType').selectedIndex = 0;
+            $('#cutType').selectedIndex = 0;
             $('#price').value = '0';
             $('#total').value = '';
             $('#addons').selectedIndex = -1;
-            $('#payment').value = 'بطاقة';
+            $('#payment').selectedIndex = 0;
             
             // إزالة علامات الحقول المطلوبة
             $$('.required').forEach(el => el.classList.remove('required'));
             
             // مسح البيانات الحالية غير المحفوظة
             state.currentEntry = null;
+            
+            // إعادة تعيين حالة التعديل
+            state.editingIndex = null;
+            $('#btnAdd').textContent = 'إضافة ذبيحة';
+            $('#btnAdd').classList.remove('save-btn');
+            $('#btnAdd').classList.add('b-green');
         }
 
         function validateForm() {
@@ -1461,7 +1468,7 @@
             save();
             renderCurrent();
             renderInvoices();
-            //alert('تم تحديث البطاقة الغذائية، استخدم زر "ذبيحة جديدة" للحفظ');
+           // alert('تم تحديث البطاقة الغذائية، استخدم زر "ذبيحة جديدة" للحفظ');
         }
 
         function saveNewSlaughter() {
@@ -1617,8 +1624,7 @@
             
             document.body.removeChild(printContent);
             
-            // مسح الحقول بعد الطباعة
-            clearInputFields();
+            // لا يتم مسح الحقول بعد الطباعة (حسب المطلوب)
         }
 
         function filter(site, from, to) {

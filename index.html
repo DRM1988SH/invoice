@@ -222,8 +222,8 @@
         .foodcard {
             position: relative;
             width: 26.500cm;
-            height: 2.500cm;
-            border: 2.5pt solid #000;
+            height: 2.000cm;
+            border: 0.5pt solid #000;
             padding: 0.05in;
             display: flex;
             gap: 0.03in;
@@ -244,7 +244,7 @@
         }
 
         .fc-box {
-            border: 2.5pt solid #000;
+            border: 1.5pt solid #000;
             padding: 0.03in 0.02in;
             font-size: 9pt;
             display: flex;
@@ -257,12 +257,12 @@
         }
 
         .fc-sticker {
-            border: 2.5pt solid #000;
+            border: 3.5pt solid #000;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 20pt;
+            font-weight: 1000;
+            font-size: 45pt;
             width: 1.1in;
         }
 
@@ -285,7 +285,7 @@
         }
 
         .fc-slaughter-name {
-            font-size: 10pt;
+            font-size: 8pt;
             text-align: center;
             margin-top: 0.04in;
             font-weight: bold;
@@ -1473,7 +1473,7 @@
             save();
             renderCurrent();
             renderInvoices();
-            alert('تم تحديث البطاقة الغذائية، استخدم زر "ذبيحة جديدة" للحفظ');
+            //alert('تم تحديث البطاقة الغذائية، استخدم زر "ذبيحة جديدة" للحفظ');
         }
 
         function saveNewSlaughter() {
@@ -1520,8 +1520,7 @@
                         <tr><td style="padding:4px;width:30%;border:1px solid #000"><b>التاريخ</b></td><td style="padding:4px;border:1px solid #000">${dayjs(e.date).format('YYYY-MM-DD HH:mm')}</td></tr>
                         <tr><td style="padding:4px;border:1px solid #000"><b>رقم الفاتورة</b></td><td style="padding:4px;border:1px solid #000">${e.invoiceNo}</td></tr>
                         <tr><td style="padding:4px;border:1px solid #000"><b>رقم الذبيحة</b></td><td style="padding:4px;border:1px solid #000">${e.animalNo}</td></tr>
-                        <tr><td style="padding:4px;border:1px solid #000"><b>رقم الاستيكر</b></td><td style="padding:4px;border:1px solid #000">${e.sticker}</td></tr>
-                        <tr><td style="padding:4px;border:1px solid #000"><b>نوع الذبيحة</b></td><td style="padding:4px;border:1px solid #000">${e.animalType}</td></tr>
+                        <tr><td style="padding:4px;border:1px solid  #000"><b>نوع الذبيحة</b></td><td style="padding:4px;border:1px solid #000">${e.animalType}</td></tr>
                         <tr><td style="padding:4px;border:1px solid #000"><b>نوع التقطيع</b></td><td style="padding:4px;border:1px solid #000">${e.cutType}</td></tr>
                         <tr><td style="padding:4px;border:1px solid #000"><b>العدد</b></td><td style="padding:4px;border:1px solid #000">${e.qty}</td></tr>
                         <tr><td style="padding:4px;border:1px solid #000"><b>السعر</b></td><td style="padding:4px;border:1px solid #000">${e.price} درهم</td></tr>
@@ -1950,7 +1949,7 @@
             setTimeout(() => {
                 $('#welcomeOverlay').style.display = 'none';
                 setScreen(state.screen);
-            }, 500);
+            }, 900);
         }
 
         function init() {
@@ -1992,7 +1991,7 @@
                 site: $('#site').value || 'مسلخ تجريبي',
                 animalType: $('#animalType').value || 'خروف',
                 cutType: $('#cutType').value || 'عزيمة',
-                sticker: $('#sticker').value || '5678',
+                sticker: $('#sticker').value || '01',
                 date: new Date().toISOString()
             };
             $('#cardPreviewWrap').innerHTML = buildFoodCard(e);
